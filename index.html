@@ -17,11 +17,6 @@
 			loadData();
 
 			$(function() {
-				$(".delete").on("click", function() {
-					$(this).parent().remove();
-					saveData();
-				});
-
 				$( "#task" ).sortable({
 					stop: function(event, ui) {
 						saveData();
