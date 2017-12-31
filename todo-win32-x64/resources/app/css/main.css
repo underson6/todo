@@ -1,0 +1,27 @@
+#task {
+   float: left;
+   width: 195px;    /* floatに、width 指定は必須です。*/
+}
+#doing {
+   float: left;
+   width: 195px;
+}
+#done {
+   float: left;
+   width: 195px;
+}
+ul {
+	list-style: none;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: 3px;
+	background: #ddd;
+}
+li {
+	background: #fff;
+	word-break : break-all;
+}
+span.delete {
+	float: right;
+	top: 8px;
+}

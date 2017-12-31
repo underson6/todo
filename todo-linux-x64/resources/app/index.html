@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ToDo App</title>
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/jquery-ui.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <script src="./js/jquery-3.2.1.min.js"></script>
+  <script src="./js/jquery-1.11.3.min.js"></script>
+  <script src="./js/jquery-ui.min.js"></script>
+  <!-- // <script src="./js/bootstrap.min.js"></script> -->
+  <script src="./js/main.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			loadData();
+
+			$(function() {
+				$(".delete").on("click", function() {
+					$(this).parent().remove();
+					saveData();
+				});
+
+				$( "#task" ).sortable({
+					stop: function(event, ui) {
+						saveData();
+					}
+				});
+
+				$( "#task" ).disableSelection();
+				$( "#task" ).sortable({cancel: "div,button", connectWith: ["#doing", "#done"]});
+
+				$( "#doing" ).sortable();
+				$( "#doing" ).disableSelection();
+				$( "#doing" ).sortable({cancel: "div,button", connectWith: ["#task", "#done"]});
+
+				$( "#done" ).sortable();
+				$( "#done" ).disableSelection();
+				$( "#done" ).sortable({cancel: "div,button", connectWith: ["#task", "#doing"]});
+
+				$("#task-add").on("click", function() {
+					var newTask = $("<div>");
+					newTask.attr("id", "new-task");
+
+					var newTaskText = $("<textarea>");
+					newTaskText.attr("id", "new-task-text");
+					newTask.append(newTaskText);
+
+					var newTaskOk = $("<button>");
+					newTaskOk.attr("id", "new-task-ok");
+					newTaskOk.text("add");
+					var newTaskCancel = $("<button>");
+					newTaskCancel.attr("id", "new-task-cancel");
+					newTaskCancel.text("cancel");
+
+					newTask.append(newTaskOk);
+					newTask.append(newTaskCancel);
+
+					newTask.insertBefore(this);
+					$("#new-task-text").focus();
+
+					$("#new-task-ok").on("click", function() {
+						if (!$("#new-task-text").val()) {
+							return false;
+						}
+						var taskText = $("#new-task-text").val();
+						var newTaskItem = $("#template").clone(true);
+						newTaskItem.attr("style", "");
+						newTaskItem.text(taskText);
+
+						var span = $("<span>");
+						span.attr("class", "delete ui-icon ui-icon-close");
+						span.appendTo(newTaskItem);
+
+
+						newTaskItem.insertAfter($("#new-task"));
+						$("#new-task").remove();
+						saveData();
+					});
+					$("#new-task-cancel").on("click", function() {
+						$("#new-task").remove();
+					});
+
+				});
+			});
+
+		})
+	</script>
+</head>
+<body>
+	<ul id="task">
+		<div>TASK</div>
+		<li id="task-add" class="ui-state-default">タスク追加</li>
+		<li id="template" class="ui-state-default" style="display: none;">タスク追加</li>
+	</ul>
+
+	<ul id="doing">
+		<div>DOING</div>
+	</ul>
+
+	<ul id="done">
+		<div>DONE</div>
+	</ul>
+
+</body>
+</html>
